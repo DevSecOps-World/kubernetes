@@ -1,0 +1,39 @@
+#Scenario-1
+
+# This example demonstrates how to set up a NetworkPolicy to allow traffic from frontend pods (A) to backend service pods (B) using a PodSelector.
+
+# Prerequisites:
+# - A Kubernetes cluster is up and running.
+# - Pods are deployed:
+#   - Frontend pod A with label `app=frontend`.
+#   - Backend pods B with label `app=backend`.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: frontend-to-backend # A descriptive name for the policy to make it easily identifiable
+  namespace: default        # Define the namespace where this policy will apply
+spec:
+  podSelector:  # Specifies the pods to which this policy applies
+    matchLabels:
+      app: frontend # Select pods labeled as `app=frontend` (frontend pods)
+  policyTypes:  # Defines the types of traffic this policy will control
+  - Egress      # Controls outgoing traffic from the selected pods
+  - Ingress     # Controls incoming traffic to the selected pods
+  egress:
+  - to:
+    - namespaceSelector:  # Matches namespaces with specific labels
+        matchLabels:
+          name: namespace-1 # Specify the namespace label to allow traffic to that namespace
+    - podSelector:  # Matches pods in the allowed namespace or cluster scope
+        matchLabels:
+          app: backend # Select backend pods labeled as `app=backend` as traffic destinations
+  ingress:  # Allows incoming traffic to the selected frontend pods
+    from:   # Specifies the source of the allowed traffic
+    - podSelector:
+        matchLabels:
+          app: frontend # Allow traffic originating from pods labeled `app=frontend`
+
+# Additional Notes:
+# - This policy is designed to manage both outgoing and incoming traffic for the frontend pods.
+# - The `namespaceSelector` can help segment traffic across namespaces for multi-tenant environments.
+# - Ensure that labels are correctly applied to pods and namespaces for this policy to work effectively.
