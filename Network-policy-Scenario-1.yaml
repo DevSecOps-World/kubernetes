@@ -23,7 +23,7 @@ spec:
   - to:
     - namespaceSelector:  # Matches namespaces with specific labels
         matchLabels:
-          name: namespace-1 # Specify the namespace label to allow traffic to that namespace
+          example: namespace-1 # Specify the namespace label to allow traffic to that namespace
     - podSelector:  # Matches pods in the allowed namespace or cluster scope
         matchLabels:
           app: backend # Select backend pods labeled as `app=backend` as traffic destinations
