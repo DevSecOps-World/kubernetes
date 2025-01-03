@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: b
+  namespace: backend-svc-ns
+  labels:
+    app: backend
+spec:
+  containers:
+  - name: b
+    image: busybox
+    command:
+    - sleep
+    - "3600"

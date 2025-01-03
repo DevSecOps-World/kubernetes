@@ -23,12 +23,12 @@ spec:
   - to:
     - namespaceSelector:  # Matches namespaces with specific labels
         matchLabels:
-          example: namespace-1 # Specify the namespace label to allow traffic to that namespace
+          example: backend-svc-ns # Specify the namespace label to allow traffic to that namespace
     - podSelector:  # Matches pods in the allowed namespace or cluster scope
         matchLabels:
           app: backend # Select backend pods labeled as `app=backend` as traffic destinations
   ingress:  # Allows incoming traffic to the selected frontend pods
-    from:   # Specifies the source of the allowed traffic
+  - from:   # Specifies the source of the allowed traffic
     - podSelector:
         matchLabels:
           app: frontend # Allow traffic originating from pods labeled `app=frontend`
