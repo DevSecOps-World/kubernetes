@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: Database-np 
+  namespace: database-ns        
+spec:
+  podSelector:  
+    matchLabels:
+      app: database-ns 
+  policyTypes: 
+  - Ingress      
+  ingress:
+  - from:
+      - namespaceSelector:
+          matchLabels:
+            ns: frontend
+      - podSelector:
+          matchLabels:
+            app: backend
+
+

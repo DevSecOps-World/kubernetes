@@ -10,7 +10,7 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: frontend-to-backend # A descriptive name for the policy to make it easily identifiable
+  name: frontend-np # A descriptive name for the policy to make it easily identifiable
   namespace: default        # Define the namespace where this policy will apply
 spec:
   podSelector:  # Specifies the pods to which this policy applies
@@ -18,7 +18,6 @@ spec:
       app: frontend # Select pods labeled as `app=frontend` (frontend pods)
   policyTypes:  # Defines the types of traffic this policy will control
   - Egress      # Controls outgoing traffic from the selected pods
-  - Ingress     # Controls incoming traffic to the selected pods
   egress:
   - to:
     - namespaceSelector:  # Matches namespaces with specific labels
@@ -27,11 +26,6 @@ spec:
     - podSelector:  # Matches pods in the allowed namespace or cluster scope
         matchLabels:
           app: backend # Select backend pods labeled as `app=backend` as traffic destinations
-  ingress:  # Allows incoming traffic to the selected frontend pods
-  - from:   # Specifies the source of the allowed traffic
-    - podSelector:
-        matchLabels:
-          app: frontend # Allow traffic originating from pods labeled `app=frontend`
 
 # Additional Notes:
 # - This policy is designed to manage both outgoing and incoming traffic for the frontend pods.
